@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import { localTask } from '../../../interfaces/interfaces';
+import { v4 } from 'uuid';
 
 interface TaskState {
   value: [localTask];
@@ -8,7 +9,12 @@ interface TaskState {
 
 const initialState: TaskState = {
   value: [
-    { content: 'task', scheduledTime: new Date().toString(), finished: false },
+    {
+      taskId: v4(),
+      content: 'task',
+      scheduledTime: new Date().toString(),
+      finished: false,
+    },
   ],
 };
 
@@ -30,10 +36,20 @@ export const taskSlice = createSlice({
         );
       }
     },
+    removeTask: (state, action: PayloadAction<string>) => {
+      state.value.filter((el) => el.taskId !== action.payload);
+      const localData = <localTask[]>(
+        JSON.parse(localStorage.getItem('userTasks'))
+      );
+      const filteredLocalData = localData.filter(
+        (el) => el.taskId !== action.payload
+      );
+      localStorage.setItem('userTasks', JSON.stringify(filteredLocalData));
+    },
   },
 });
 
-export const { addTask } = taskSlice.actions;
+export const { addTask, removeTask } = taskSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectTask = (state: RootState) => state.tasks.value;

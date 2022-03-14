@@ -3,11 +3,13 @@ import { useState } from 'react';
 import './main.scss';
 import { localTask } from '../interfaces/interfaces';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
-import { addTask } from '../redux/features/task/taskSlice';
+import { addTask, removeTask } from '../redux/features/task/taskSlice';
 import { useEffect } from 'react';
+import { v4 } from 'uuid';
 
 const IndexPage = () => {
   const [task, setTask] = useState<localTask>({
+    taskId: v4(),
     content: '',
     scheduledTime: '',
     finished: false,
@@ -16,7 +18,6 @@ const IndexPage = () => {
 
   const user = false;
   const dispatch = useAppDispatch();
-  const getData = useAppSelector;
 
   useEffect(() => {
     const localData = localStorage.getItem('userTasks');
@@ -36,6 +37,7 @@ const IndexPage = () => {
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
     const taskData = {
+      taskId: v4(),
       content: task.content,
       scheduledTime: task.scheduledTime,
       finished: false,
@@ -49,9 +51,9 @@ const IndexPage = () => {
         setData((dataArr) => [...localData]);
       }
       setTask({
+        ...task,
         content: '',
         scheduledTime: '',
-        finished: false,
       });
 
       data.length > 0
@@ -65,6 +67,12 @@ const IndexPage = () => {
         );
     } else {
     }
+  };
+
+  const handleRemoveTask = (taskId) => {
+    dispatch(removeTask(taskId));
+    const localData = JSON.parse(localStorage.getItem('userTasks'));
+    setData((dataArr) => [...localData]);
   };
 
   return (
@@ -85,11 +93,11 @@ const IndexPage = () => {
       <section className='app__list'>
         <h2>list</h2>
         {data.length > 0 &&
-          data.map((el, i) => {
+          data.map((el) => {
             return (
-              <article key={i} className='app__list__task'>
+              <article key={el.taskId} className='app__list__task'>
                 <p>{el.content}</p>
-                <button>X</button>
+                <button onClick={() => handleRemoveTask(el.taskId)}>X</button>
               </article>
             );
           })}
