@@ -16,15 +16,20 @@ const IndexPage = () => {
 
   const user = false;
   const dispatch = useAppDispatch();
+  const getData = useAppSelector;
 
   useEffect(() => {
     const localData = localStorage.getItem('userTasks');
-    if (localData !== 'undefined') {
+
+    if (localData !== (undefined || null)) {
       const taskData = JSON.parse(localStorage.getItem('userTasks'));
-      console.log('//taskdata', taskData);
-      setData((dataArr) => [...dataArr, ...taskData]);
-      console.log(data);
-    } else {
+      setData((dataArr) => [...taskData]);
+      data.length > 0 &&
+        setData((arr) =>
+          arr.sort((a, b) => {
+            return Date.parse(b.scheduledTime) - Date.parse(a.scheduledTime);
+          })
+        );
     }
   }, []);
 
@@ -35,18 +40,29 @@ const IndexPage = () => {
       scheduledTime: task.scheduledTime,
       finished: false,
     };
+    console.log(taskData);
 
-    if (!user && task.content) {
-      console.log(taskData);
+    if (task.content) {
       dispatch(addTask(taskData));
-      console.log('task added');
       const localData = JSON.parse(localStorage.getItem('userTasks'));
-      setData((dataArr) => [...localData]);
+      if (localData !== (undefined || null)) {
+        setData((dataArr) => [...localData]);
+      }
       setTask({
         content: '',
         scheduledTime: '',
         finished: false,
       });
+
+      data.length > 0
+        ? console.log('data length > 0', data)
+        : console.log('nije', data);
+      data.length > 0 &&
+        setData((arr) =>
+          arr.sort((a, b) => {
+            return Date.parse(b.scheduledTime) - Date.parse(a.scheduledTime);
+          })
+        );
     } else {
     }
   };
@@ -73,6 +89,7 @@ const IndexPage = () => {
             return (
               <article key={i} className='app__list__task'>
                 <p>{el.content}</p>
+                <button>X</button>
               </article>
             );
           })}

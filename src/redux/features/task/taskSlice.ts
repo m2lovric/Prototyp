@@ -20,11 +20,15 @@ export const taskSlice = createSlice({
     addTask: (state, action: PayloadAction<localTask>) => {
       state.value.push(action.payload);
       const data = JSON.parse(localStorage.getItem('userTasks'));
-      console.log(action.payload);
-      localStorage.setItem(
-        'userTasks',
-        JSON.stringify([...data, action.payload])
-      );
+
+      if (data === (undefined || null)) {
+        localStorage.setItem('userTasks', JSON.stringify([action.payload]));
+      } else {
+        localStorage.setItem(
+          'userTasks',
+          JSON.stringify([...data, action.payload])
+        );
+      }
     },
   },
 });
