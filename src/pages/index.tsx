@@ -2,10 +2,11 @@ import * as React from 'react';
 import { useState } from 'react';
 import './main.scss';
 import { localTask } from '../interfaces/interfaces';
-import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { useAppDispatch } from '../redux/hooks';
 import { addTask, removeTask } from '../redux/features/task/taskSlice';
 import { useEffect } from 'react';
 import { v4 } from 'uuid';
+import { TaskList } from '../components';
 
 const IndexPage = () => {
   const [task, setTask] = useState<localTask>({
@@ -56,9 +57,6 @@ const IndexPage = () => {
         scheduledTime: '',
       });
 
-      data.length > 0
-        ? console.log('data length > 0', data)
-        : console.log('nije', data);
       data.length > 0 &&
         setData((arr) =>
           arr.sort((a, b) => {
@@ -69,7 +67,7 @@ const IndexPage = () => {
     }
   };
 
-  const handleRemoveTask = (taskId) => {
+  const handleRemoveTask = (taskId: string) => {
     dispatch(removeTask(taskId));
     const localData = JSON.parse(localStorage.getItem('userTasks'));
     setData((dataArr) => [...localData]);
@@ -77,31 +75,22 @@ const IndexPage = () => {
 
   return (
     <main className='app'>
+      <TaskList data={data} removeTask={handleRemoveTask} />
       <form className='app__form' onSubmit={handleAddTask}>
         <input
           type='text'
           value={task.content}
+          placeholder='Enter New Task'
           onChange={(e) => setTask({ ...task, content: e.target.value })}
         />
         <input
           type='datetime-local'
           value={task.scheduledTime}
+          placeholder='Enter New Task'
           onChange={(e) => setTask({ ...task, scheduledTime: e.target.value })}
         />
-        <button>add</button>
+        <button className='app__form--add'>+</button>
       </form>
-      <section className='app__list'>
-        <h2>list</h2>
-        {data.length > 0 &&
-          data.map((el) => {
-            return (
-              <article key={el.taskId} className='app__list__task'>
-                <p>{el.content}</p>
-                <button onClick={() => handleRemoveTask(el.taskId)}>X</button>
-              </article>
-            );
-          })}
-      </section>
     </main>
   );
 };

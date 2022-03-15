@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+$roboto: 'Roboto', sans-serif;
+
 body {
   background-color: #222;
   padding: 0;
@@ -9,29 +13,73 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: $roboto;
 
   &__form {
     width: 400px;
     display: flex;
     flex-direction: column;
+
+    &--add {
+      width: 50px;
+      height: 50px;
+      margin-top: 10px;
+      background: linear-gradient(to top right, #cd68d8, #fca0a6);
+      border: none;
+      border-radius: 10px;
+      font-size: 36px;
+      color: white;
+      font-weight: 300;
+      cursor: pointer;
+      align-self: center;
+    }
+
+    input {
+      border: none;
+      border-radius: 5px;
+      width: 300px;
+      height: 30px;
+      margin: 5px auto;
+      padding-left: 10px;
+      color: rgba($color: #fff, $alpha: 0.86);
+      font-weight: 300;
+      background-color: #333;
+    }
   }
 
   &__list {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 50px 0;
 
     &__task {
       width: 300px;
-      height: 40px;
+      min-height: 40px;
       margin: 5px;
-      padding: 5px 10px;
+      padding: 0 10px;
       background-color: #333;
-      color: white;
+      color: rgba($color: #fff, $alpha: 0.86);
+      font-weight: 300;
       border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-size: 1rem;
+    }
+
+    &__remove {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 5px;
+      background-color: #fca0a6;
+      color: white;
+      font-size: 0.8rem;
+      cursor: pointer;
     }
   }
 }
