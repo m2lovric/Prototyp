@@ -7,6 +7,7 @@ import { addTask, removeTask } from '../redux/features/task/taskSlice';
 import { useEffect } from 'react';
 import { v4 } from 'uuid';
 import { TaskList } from '../components';
+import { handleGetDocs } from '../firebase/config';
 
 const IndexPage = () => {
   const [task, setTask] = useState<localTask>({
@@ -22,6 +23,8 @@ const IndexPage = () => {
 
   useEffect(() => {
     const localData = localStorage.getItem('userTasks');
+
+    const todoList = handleGetDocs().then((res) => console.log(res));
 
     if (localData !== (undefined || null)) {
       const taskData = JSON.parse(localStorage.getItem('userTasks'));
