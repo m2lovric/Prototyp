@@ -8,12 +8,55 @@ body {
   margin: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .app {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: $roboto;
+
+  &__nav {
+    display: flex;
+    width: 400px;
+    height: 80px;
+    padding: 0 50px;
+    color: rgba($color: #fff, $alpha: 0.86);
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-weight: 500;
+      text-decoration: none;
+      color: rgba($color: #fff, $alpha: 0.86);
+      font-size: 1.5rem;
+    }
+
+    &__signup {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 80%;
+
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        background-color: #fca0a6;
+        color: white;
+        font-weight: 700;
+        height: 30px;
+        width: 70px;
+        margin-left: 10px;
+      }
+    }
+  }
 
   &__form {
     width: 400px;
@@ -45,13 +88,18 @@ body {
       font-weight: 300;
       background-color: #333;
     }
+
+    input[type='datetime-local'] {
+      font-family: $roboto;
+    }
   }
 
   &__list {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50px 0;
+    margin: 30px 0 50px 0;
+    width: 100%;
 
     &__task {
       width: 300px;
@@ -66,6 +114,21 @@ body {
       align-items: center;
       justify-content: space-between;
       font-size: 1rem;
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        p {
+          margin: 5px;
+        }
+      }
+      .date {
+        font-size: 0.8rem;
+        color: rgba($color: #fff, $alpha: 0.6);
+        font-weight: 400;
+        justify-self: flex-end;
+        margin-top: 10px;
+      }
     }
 
     &__remove {
@@ -81,5 +144,15 @@ body {
       font-size: 0.8rem;
       cursor: pointer;
     }
+  }
+}
+
+@media (max-width: 420px) {
+  .app__main {
+    height: calc(100vh - 160px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
 }
