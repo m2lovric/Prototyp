@@ -44,6 +44,9 @@ export const taskSlice = createSlice({
       const filteredLocalData = localData.filter(
         (el) => el.taskId !== action.payload
       );
+      filteredLocalData.sort((a, b) => {
+        return Date.parse(b.scheduledTime) - Date.parse(a.scheduledTime);
+      });
       localStorage.setItem('userTasks', JSON.stringify(filteredLocalData));
     },
   },
