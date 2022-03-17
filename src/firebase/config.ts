@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -12,12 +13,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-export const handleGetDocs = async () => {
-  console.log('fired');
-  const todoCol = collection(db, 'todos');
-  const todosSnapshot = await getDocs(todoCol);
-  const todoList = todosSnapshot.docs.map((doc) => doc.data());
-  return todoList;
-};
+export const db = getFirestore(app);
+export const auth = getAuth();
